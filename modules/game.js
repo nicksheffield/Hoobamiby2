@@ -60,7 +60,7 @@ module.exports = function(io, socket) {
 				card = _.sample(cards.whites);
 			} while (usedWhites.indexOf(card) != -1);
 
-			usedWhites.push(card);
+			this.usedWhites.push(card);
 			hand.push(card);
 		}
 
@@ -74,7 +74,7 @@ module.exports = function(io, socket) {
 			card = _.sample(cards.blacks);
 		} while (usedWhites.indexOf(card) != -1);
 
-		usedBlacks.push(card);
+		this.usedBlacks.push(card);
 		return card;
 	};
 
