@@ -38,10 +38,10 @@ function control(io, socket) {
 				game.reveal = false;
 				game.chosen = false;
 				game.submissions = {};
-			}
 
-			// choose another judge
-			game.nextJudge();
+				// choose another judge
+				game.nextJudge();
+			}
 
 			// make sure to leave that games room
 			socket.leave(game.roomName);
