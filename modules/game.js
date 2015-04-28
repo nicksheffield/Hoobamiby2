@@ -1,4 +1,5 @@
 var mem = require('./memory');
+var Expansions = require('./expansions');
 var _ = require('lodash');
 
 module.exports = function(io, socket) {
@@ -21,11 +22,13 @@ module.exports = function(io, socket) {
 	this.gloatTime = 5; // amount of seconds to show the round winner card
 
 	// private properties
-	var cards = require('../expansions/default');
+	var cards = new Expansions();
 	var usedWhites = [];
 	var usedBlacks = [];
 	var destroyTimer = null;
 	var self = this;
+
+	cards.load('default', 'first', 'second', 'third', 'pax', 'custom');
 
 	this.generateRoomName = function(len) {
 		// any letters in here MUST be lowercase. Uppercase will be IMPOSSIBLE to match
@@ -60,7 +63,7 @@ module.exports = function(io, socket) {
 				card = _.sample(cards.whites);
 			} while (usedWhites.indexOf(card) != -1);
 
-			this.usedWhites.push(card);
+			usedWhites.push(card);
 			hand.push(card);
 		}
 
@@ -74,7 +77,7 @@ module.exports = function(io, socket) {
 			card = _.sample(cards.blacks);
 		} while (usedWhites.indexOf(card) != -1);
 
-		this.usedBlacks.push(card);
+		usedBlacks.push(card);
 		return card;
 	};
 
