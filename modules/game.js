@@ -4,6 +4,7 @@ var _ = require('lodash');
 module.exports = function(io, socket) {
 	// public properties
 	this.roomName = '';
+	this.winnerID = '';
 	this.host = {};
 	this.judge = {};
 	this.players = [];
@@ -14,9 +15,10 @@ module.exports = function(io, socket) {
 	this.ended = false;
 	this.reveal = false;
 	this.chosen = false;
-	this.timeoutSeconds = 10;
-	this.minPlayers = 2;
-	this.scoreLimit = 3;
+	this.timeoutSeconds = 10; // amount of seconds before empty rooms are destroyed
+	this.minPlayers = 2; // minimum amount of players before the start button works
+	this.scoreLimit = 3; // determines when the game ends
+	this.gloatTime = 2; // amount of seconds to show the round winner card
 
 	// private properties
 	var cards = require('../expansions/default');
@@ -96,16 +98,6 @@ module.exports = function(io, socket) {
 		}
 	};
 
-	// maybe not using
-	this.emitToHost = function(event, data) {
-		io.to(this.host.socketID).emit(event, data);
-	};
-
-	// not using
-	this.endRound = function() {
-
-	};
-
 	this.chooseNewHost = function() {
 		console.log('choosing host');
 		var player = _.sample(this.players);
@@ -139,9 +131,12 @@ module.exports = function(io, socket) {
 		}
 
 		this.judge = this.players[index];
-		this.judge.isJudge = true;
+		
+		if(this.judge !== undefined){
+			this.judge.isJudge = true;
 
-		this.judge.emitUpdate();
+			this.judge.emitUpdate();
+		}
 	};
 
 	this.addPlayer = function(player) {
@@ -194,5 +189,13 @@ module.exports = function(io, socket) {
 			// and give them that many cards
 			player.whiteCards = player.whiteCards.concat(newCards);
 		}
+	};
+
+	this.refundSubmissions = function(){
+		_.forEach(this.players, function(player){
+			player.submissions = [];
+
+			player.emitUpdate();
+		});
 	};
 };

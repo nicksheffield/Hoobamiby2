@@ -25,6 +25,9 @@ function control(io, socket) {
 		// find the winning player
 		var winningPlayer = mem.findPlayer(data.socketID);
 
+		// set the winning player
+		game.winnerID = winningPlayer.socketID;
+
 		// give them the black card
 		winningPlayer.blackCards.push(game.blackCard.text);
 
@@ -37,8 +40,23 @@ function control(io, socket) {
 		// update everbody
 		game.announceUpdate();
 
-		// wait 5 seconds and then reset the game
-		setTimeout(function(){
+		// if the score limit is reached
+		if(_.max(_.map(game.players, function(p){
+			return p.blackCards.length;
+		})) >= game.scoreLimit){
+			// wait a few seconds for the winner to gloat
+			setTimeout(function(){
+				// then announce that the game is over
+				game.announceToPlayers('gameOver');
+			}, game.gloatTime * 1000);
+		}else{
+			// wait 5 seconds and then reset the game
+			setTimeout(reset, game.gloatTime * 1000);
+		}
+
+
+
+		function reset(){
 
 			// set the chosen flag to false
 			game.chosen = false;
@@ -77,6 +95,9 @@ function control(io, socket) {
 			// hide the cards again
 			game.reveal = false;
 
+			// reset the winnerID
+			game.winnerID = '';
+
 			// for everyone in the game
 			_.forEach(game.players, function(player){
 				// deal them their cards
@@ -95,7 +116,7 @@ function control(io, socket) {
 			// update everbody
 			game.announceUpdate();
 
-		}, 5 * 1000);
+		}
 	});
 
 }
