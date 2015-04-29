@@ -44,11 +44,19 @@ function control(io, socket) {
 		if(_.max(_.map(game.players, function(p){
 			return p.blackCards.length;
 		})) >= game.scoreLimit){
+
 			// wait a few seconds for the winner to gloat
 			setTimeout(function(){
+
 				// then announce that the game is over
+				game.ended = true;
+
+				game.announceUpdate();
+
 				game.announceToPlayers('gameOver');
+				
 			}, game.gloatTime * 1000);
+
 		}else{
 			// wait 5 seconds and then reset the game
 			setTimeout(reset, game.gloatTime * 1000);

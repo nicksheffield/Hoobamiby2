@@ -9,7 +9,7 @@ module.exports = [
 	{text: "%s. 60% of the time, it works every time.", pick: 1},
 	{text: "But can you do %s in 100!!! browser windows????", pick: 1},
 	{text: "Hey kid! I'm %s", pick: 1},
-	{text: "WHAT IS THIS?? %s? IT NEEDS TO BE.. %s2!", pick: 2},
+	// {text: "WHAT IS THIS?? %s? IT NEEDS TO BE.. %s2!", pick: 2},
 	{text: "Argh! Right in the %s!", pick: 1},
 	{text: "Your mommas so fat, she's %s!", pick: 1},
 	{text: "%s... if you know what I mean.", pick: 1},
