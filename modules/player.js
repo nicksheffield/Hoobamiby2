@@ -14,7 +14,7 @@ module.exports = function(io, socket){
 	};
 
 	this.emitUpdate = function(){
-		io.to(this.socketID).emit('playerUpdate', this);
+		this.emit('playerUpdate', this);
 	};
 
 	this.broadcast = function(event, data){
@@ -23,5 +23,12 @@ module.exports = function(io, socket){
 
 	this.broadcastUpdate = function(){
 		this.broadcast('otherPlayerUpdate', this);
+	};
+
+	this.reset = function(){
+		this.whiteCards = [];
+		this.blackCards = [];
+		this.submissions = [];
+		this.isJudge = false;
 	};
 };

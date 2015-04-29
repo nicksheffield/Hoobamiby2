@@ -47,7 +47,7 @@ function control(io, socket){
 		}
 
 		// if the game is started already
-		if(game.started){
+		if(game.started && game.players.length > 2){
 			// then make the player wait until the next round
 			player.waiting = true;
 		}

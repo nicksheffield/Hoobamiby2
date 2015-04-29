@@ -25,8 +25,26 @@ function control(io, socket) {
 			// find this player
 			var player = mem.findPlayer(socketID);
 
-			// if the judge leaves
-			if(player.isJudge){
+			// remove the player from the game
+			game.removePlayer(socketID);
+
+			// make sure to leave that games room
+			socket.leave(game.roomName);
+
+			// the following code counts how many people are not able to submit this turn.
+			var continueable = true;
+			var c = 0;
+
+			for(var i=0; i<game.players; i++){
+				var p = game.players[i];
+				if(p.isJudge || p.waiting){
+					c += 1;
+				}
+			}
+
+			// if the judge is the one leaving
+			// or if all the players are unable to submit this turn
+			if(player.isJudge || (c == game.players.length)){
 				
 				// refund all white cards
 				game.refundSubmissions();
@@ -38,16 +56,13 @@ function control(io, socket) {
 				game.reveal = false;
 				game.chosen = false;
 				game.submissions = {};
+			}
 
+			// if the judge is the one leaving
+			if(player.isJudge){
 				// choose another judge
 				game.nextJudge();
 			}
-
-			// make sure to leave that games room
-			socket.leave(game.roomName);
-
-			// don't keep the player that's leaving
-			game.removePlayer(socketID);
 
 			console.log(player.name, 'left game', game.roomName);
 

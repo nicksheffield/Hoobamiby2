@@ -11,7 +11,6 @@ module.exports = function(io, socket) {
 	this.players = [];
 	this.blackCard = {};
 	this.submissions = {};
-	this.expansions = [];
 	this.started = false;
 	this.ended = false;
 	this.reveal = false;
@@ -200,5 +199,22 @@ module.exports = function(io, socket) {
 
 			player.emitUpdate();
 		});
+	};
+
+	this.reset = function(){
+		this.chosen = false;
+		this.reveal = false;
+		this.started = false;
+		this.ended = false;
+
+		this.winnerID = '';
+
+		this.submissions = {};
+		this.judge = {};
+
+		this.newBlack();
+
+		usedBlacks = [];
+		usedWhites = [];
 	};
 };

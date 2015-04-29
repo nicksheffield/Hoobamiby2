@@ -42,8 +42,12 @@ function control(io, socket) {
 			return sub.length;
 		});
 
+		var amountOfPlayers = _.sum(_.map(game.players, function(p){
+			return p.waiting ? 0 : 1;
+		}));
+
 		// if everyone's cards matches the right amount
-		if(_.sum(sums) == ((game.players.length - 1) * game.blackCard.pick)){
+		if(_.sum(sums) == ((amountOfPlayers - 1) * game.blackCard.pick)){
 			
 			// flip 'em over
 			game.reveal = true;
