@@ -121,8 +121,11 @@ function control(io, socket) {
 			// choose a new judge
 			game.nextJudge();
 
+			game.reset = true;
 			// update everbody
 			game.announceUpdate();
+			
+			game.reset = false;
 
 		}
 	});

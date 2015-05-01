@@ -85,7 +85,7 @@ module.exports = [
 	{text: "Lifetime presents %s, the story of %s2.", pick: 2},
 	{text: "When I am a billionaire, I shall erect a 50-foot statue to commemorate %s.", pick: 1},
 	{text: "When I was tripping on acid, %s turned into %s2.", pick: 2},
-	{text: "that's right, I killed %s. How, you ask? %s2", pick: 2},
+	{text: "That's right, I killed %s. How, you ask? %s2", pick: 2},
 	{text: "What's my anti-drug? %s", pick: 1},
 	{text: "%s + %s2 = %s3", pick: 3, draw: 2},
 	{text: "What never fails to liven up the party? %s", pick: 1},

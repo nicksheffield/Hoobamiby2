@@ -13,11 +13,12 @@ module.exports = function(io, socket) {
 	this.submissions = {};
 	this.started = false;
 	this.ended = false;
+	this.reset = false;
 	this.reveal = false;
 	this.chosen = false;
 	this.timeoutSeconds = 10; // amount of seconds before empty rooms are destroyed
 	this.minPlayers = 2; // minimum amount of players before the start button works
-	this.scoreLimit = 2; // determines when the game ends
+	this.scoreLimit = 6; // determines when the game ends
 	this.gloatTime = 5; // amount of seconds to show the round winner card
 
 	// private properties
