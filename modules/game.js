@@ -75,7 +75,7 @@ module.exports = function(io, socket) {
 
 		do {
 			card = _.sample(cards.blacks);
-		} while (usedWhites.indexOf(card) != -1);
+		} while (usedBlacks.indexOf(card) != -1);
 
 		usedBlacks.push(card);
 		return card;
