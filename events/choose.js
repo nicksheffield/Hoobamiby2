@@ -3,7 +3,9 @@ var _ = require('lodash');
 
 function control(io, socket) {
 
-	socket.on('choose', function(data){
+	socket.on('choose', function(data) {
+		console.log('choose');
+
 		// get the game that this player is involved in
 		var game = mem.findGame(socket.id);
 
@@ -11,13 +13,13 @@ function control(io, socket) {
 		var player = mem.findPlayer(socket.id);
 
 		// if no game, die
-		if(!game) return false;
+		if (!game) return false;
 
 		// if no player, die
-		if(!player) return false;
+		if (!player) return false;
 
 		// if the winner has already been chosen, die
-		if(game.chosen) return false;
+		if (game.chosen) return false;
 
 		// set the chosen flag to true
 		game.chosen = true;
@@ -41,12 +43,12 @@ function control(io, socket) {
 		game.announceUpdate();
 
 		// if the score limit is reached
-		if(_.max(_.map(game.players, function(p){
+		if (_.max(_.map(game.players, function(p) {
 			return p.blackCards.length;
-		})) >= game.scoreLimit){
+		})) >= game.scoreLimit) {
 
 			// wait a few seconds for the winner to gloat
-			setTimeout(function(){
+			setTimeout(function() {
 
 				// then announce that the game is over
 				game.ended = true;
@@ -54,23 +56,23 @@ function control(io, socket) {
 				game.announceUpdate();
 
 				game.announceToPlayers('gameOver');
-				
+
 			}, game.gloatTime * 1000);
 
-		}else{
+		} else {
 			// wait 5 seconds and then reset the game
 			setTimeout(reset, game.gloatTime * 1000);
 		}
 
 
 
-		function reset(){
+		function reset() {
 
 			// set the chosen flag to false
 			game.chosen = false;
 
 			// for each of the submissions
-			for(var playerID in game.submissions){
+			for (var playerID in game.submissions) {
 
 				// get the player
 				var player = mem.findPlayer(playerID);
@@ -79,10 +81,10 @@ function control(io, socket) {
 				var newCards = player.whiteCards;
 
 				// go through each card in the submission
-				for(var i=0; i<game.submissions[playerID].length; i++){
+				for (var i = 0; i < game.submissions[playerID].length; i++) {
 
 					// remove that card from the players hand
-					newCards = _.reject(newCards, function(card){
+					newCards = _.reject(newCards, function(card) {
 						return card.text == game.submissions[playerID][i].text;
 					});
 				}
@@ -92,7 +94,7 @@ function control(io, socket) {
 
 				// empty submissions array attached to the player
 				player.submissions = [];
-				
+
 				// delete the submissions array attached to the game
 				delete game.submissions[playerID];
 			}
@@ -107,7 +109,7 @@ function control(io, socket) {
 			game.winnerID = '';
 
 			// for everyone in the game
-			_.forEach(game.players, function(player){
+			_.forEach(game.players, function(player) {
 				// deal them their cards
 				game.dealCards(player);
 
@@ -124,7 +126,7 @@ function control(io, socket) {
 			game.reset = true;
 			// update everbody
 			game.announceUpdate();
-			
+
 			game.reset = false;
 
 		}

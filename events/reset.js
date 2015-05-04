@@ -3,7 +3,7 @@ var _ = require('lodash');
 
 function control(io, socket) {
 
-	socket.on('reset', function(data){
+	socket.on('reset', function(data) {
 		console.log('reset');
 		// get the game that this player is involved in
 		var game = mem.findGame(socket.id);
@@ -12,11 +12,11 @@ function control(io, socket) {
 		var player = mem.findPlayer(socket.id);
 
 		// if no game, die
-		if(!game) return false;
+		if (!game) return false;
 
 		game.reset();
 
-		_.forEach(game.players, function(player){
+		_.forEach(game.players, function(player) {
 			player.reset();
 			game.dealCards(player);
 

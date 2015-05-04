@@ -2,9 +2,9 @@ var mem = require('../modules/memory');
 var Player = require('../modules/player');
 var _ = require('lodash');
 
-function control(io, socket){
+function control(io, socket) {
 
-	socket.on('join', function(data){
+	socket.on('join', function(data) {
 
 		console.log('join');
 
@@ -12,7 +12,7 @@ function control(io, socket){
 		data.roomName = data.roomName.toLowerCase();
 
 		// if this game doesn't exist
-		if(mem.games[data.roomName] === undefined){
+		if (mem.games[data.roomName] === undefined) {
 			// tell the user
 			socket.emit('noGame');
 
@@ -25,13 +25,13 @@ function control(io, socket){
 
 		// get the game from mem
 		var game = mem.games[data.roomName];
-		
+
 		// get a player, may be new, may be from game
-		var player = _.find(game.players, function(player){
+		var player = _.find(game.players, function(player) {
 			return player.socketID == socket.id;
 		});
 
-		if(!player){
+		if (!player) {
 			// create a new player
 			player = new Player(io, socket);
 
@@ -47,7 +47,7 @@ function control(io, socket){
 		}
 
 		// if the game is started already
-		if(game.started && game.players.length > 2){
+		if (game.started && game.players.length > 2) {
 			// then make the player wait until the next round
 			player.waiting = true;
 		}

@@ -14,8 +14,8 @@ function control(io, socket) {
 		// if there's no game, do nothing
 		if (!game) return;
 
-		if(game.players.length < game.minPlayers){
-			console.log('game not started, only '+game.players.length+' '+p('player', game.players.length)+', needs at least '+game.minPlayers);
+		if (game.players.length < game.minPlayers) {
+			console.log('game not started, only ' + game.players.length + ' ' + p('player', game.players.length) + ', needs at least ' + game.minPlayers);
 			return;
 		}
 

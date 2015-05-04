@@ -35,17 +35,17 @@ function control(io, socket) {
 			var continueable = true;
 			var c = 0;
 
-			for(var i=0; i<game.players; i++){
+			for (var i = 0; i < game.players; i++) {
 				var p = game.players[i];
-				if(p.isJudge || p.waiting){
+				if (p.isJudge || p.waiting) {
 					c += 1;
 				}
 			}
 
 			// if the judge is the one leaving
 			// or if all the players are unable to submit this turn
-			if(player.isJudge || (c == game.players.length)){
-				
+			if (player.isJudge || (c == game.players.length)) {
+
 				// refund all white cards
 				game.refundSubmissions();
 
@@ -59,7 +59,7 @@ function control(io, socket) {
 			}
 
 			// if the judge is the one leaving
-			if(player.isJudge){
+			if (player.isJudge) {
 				// choose another judge
 				game.nextJudge();
 			}

@@ -120,22 +120,22 @@ module.exports = function(io, socket) {
 		this.judge.emitUpdate();
 
 		var index = 0;
-		
-		_.forEach(this.players, function(player, i){
-			if(player.socketID == self.judge.socketID){
+
+		_.forEach(this.players, function(player, i) {
+			if (player.socketID == self.judge.socketID) {
 				index = i;
 			}
 		});
 
-		if(index >= this.players.length - 1){
+		if (index >= this.players.length - 1) {
 			index = 0;
-		}else{
+		} else {
 			index++;
 		}
 
 		this.judge = this.players[index];
-		
-		if(this.judge !== undefined){
+
+		if (this.judge !== undefined) {
 			this.judge.isJudge = true;
 
 			this.judge.emitUpdate();
@@ -194,15 +194,15 @@ module.exports = function(io, socket) {
 		}
 	};
 
-	this.refundSubmissions = function(){
-		_.forEach(this.players, function(player){
+	this.refundSubmissions = function() {
+		_.forEach(this.players, function(player) {
 			player.submissions = [];
 
 			player.emitUpdate();
 		});
 	};
 
-	this.reset = function(){
+	this.reset = function() {
 		this.chosen = false;
 		this.reveal = false;
 		this.started = false;
