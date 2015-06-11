@@ -1,16 +1,21 @@
 var _ = require('lodash');
 
-module.exports = function(){
-	this.whites = [];
-	
-	this.blacks = [];
-	
-	this.load = function() {
-		for (var i = 0; i < arguments.length; i++) {
-			var exp = require('../expansions/' + arguments[i]);
+var exp = { whites: [], blacks: [] };
 
-			this.whites = _.merge(this.whites, exp.whites);
-			this.blacks = _.merge(this.blacks, exp.blacks);
-		}
-	};
-};
+var list = [
+	'custom',
+	'default',
+	'first',
+	'second',
+	'third',
+	'pax'
+];
+
+for (var i = 0; i < list.length; i++) {
+	var exp = require('../expansions/' + list[i]);
+
+	exp.whites = _.merge(exp.whites, exp.whites);
+	exp.blacks = _.merge(exp.blacks, exp.blacks);
+}
+
+module.exports = exp;

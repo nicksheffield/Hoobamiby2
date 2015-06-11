@@ -1,5 +1,5 @@
 var mem = require('./memory');
-var Expansions = require('./expansions');
+var expansions = require('./expansions');
 var _ = require('lodash');
 
 module.exports = function(io, socket) {
@@ -22,13 +22,12 @@ module.exports = function(io, socket) {
 	this.gloatTime = 5; // amount of seconds to show the round winner card
 
 	// private properties
-	var cards = new Expansions();
 	var usedWhites = [];
 	var usedBlacks = [];
 	var destroyTimer = null;
 	var self = this;
 
-	cards.load('default', 'first', 'second', 'third', 'pax', 'custom');
+	expansions.load('default', 'first', 'second', 'third', 'pax', 'custom');
 
 	this.generateRoomName = function(len) {
 		// any letters in here MUST be lowercase. Uppercase will be IMPOSSIBLE to match
