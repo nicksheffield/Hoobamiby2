@@ -17,9 +17,9 @@ module.exports = function(io, socket) {
 	this.reveal = false;
 	this.chosen = false;
 	this.timeoutSeconds = 10; // amount of seconds before empty rooms are destroyed
-	this.minPlayers = 2; // minimum amount of players before the start button works
-	this.scoreLimit = 6; // determines when the game ends
-	this.gloatTime = 5; // amount of seconds to show the round winner card
+	this.minPlayers = 2;      // minimum amount of players before the start button works
+	this.scoreLimit = 6;      // determines when the game ends
+	this.gloatTime = 5;       // amount of seconds to show the round winner card
 
 	// private properties
 	var usedWhites = [];
