@@ -3,6 +3,7 @@
 // ----------------------------------------------------------------------------
 var requireDir = require('require-dir');
 var io = require('socket.io')(8001);
+var redis = require('socket.io-redis');
 
 
 // ----------------------------------------------------------------------------
@@ -22,6 +23,8 @@ var events = requireDir('./events');
 // ----------------------------------------------------------------------------
 // Socket.connect
 // ----------------------------------------------------------------------------
+io.adapter(redis({ host: 'localhost', port: 6379 }));
+
 io.on('connection', function(socket) {
 	console.log('connected', socket.id);
 
