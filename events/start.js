@@ -12,7 +12,10 @@ function control(io, socket) {
 		var game = mem.findGame(socket.id);
 
 		// if there's no game, do nothing
-		if (!game) return;
+		if (!game){
+			console.log('No game was found for some reason');
+			return;
+		}
 
 		if (game.players.length < game.minPlayers) {
 			console.log('game not started, only ' + game.players.length + ' ' + p('player', game.players.length) + ', needs at least ' + game.minPlayers);
