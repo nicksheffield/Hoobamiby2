@@ -22,5 +22,10 @@ module.exports = [
 	{text: "Who you gonna call? %s", pick: 1},
 	{text: "All these %s man.", pick: 1},
 	{text: "Give him the %s. DON'T give him the %s!", pick: 2},
-	{text: "Na na na na na na na na na %s-man!", pick: 1}
+	{text: "Na na na na na na na na na %s-man!", pick: 1},
+	{text: "It Rubs %s on its skin or it gets %s again.", pick: 1},
+	{text: "%s vs. %s: The new SyFy original movie.", pick: 2},
+	{text: "One small step for man, one giant leap for %s.", pick: 1},
+	{text: "Bitches love %s.", pick: 1},
+	{text: "%s isn't exactly rocket appliances.", pick: 1},
 ];
