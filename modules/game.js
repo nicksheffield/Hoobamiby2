@@ -22,12 +22,10 @@ module.exports = function(io, socket) {
 	this.gloatTime = 5;       // amount of seconds to show the round winner card
 
 	// private properties
-	var usedWhites = [];
-	var usedBlacks = [];
+	this.usedWhites = [];
+	this.usedBlacks = [];
 	var destroyTimer = null;
 	var self = this;
-
-	expansions.load('default', 'first', 'second', 'third', 'pax', 'custom');
 
 	this.generateRoomName = function(len) {
 		// any letters in here MUST be lowercase. Uppercase will be IMPOSSIBLE to match
@@ -55,28 +53,30 @@ module.exports = function(io, socket) {
 		n = n ? n : 1;
 
 		for (var i = 0; i < n; i++) {
-			var card;
+			var card_i;
 
 			do {
-				card = _.sample(cards.whites);
-			} while (usedWhites.indexOf(card) != -1);
+				card_i = parseInt(Math.random() * expansions.whites.length);
+			} while (this.usedWhites.indexOf(card_i) != -1);
 
-			usedWhites.push(card);
-			hand.push(card);
+			this.usedWhites.push(card_i);
+			
+			hand.push(expansions.whites[card_i]);
 		}
 
 		return hand;
 	};
 
 	this.getBlack = function() {
-		var card;
+		var card_i;
 
 		do {
-			card = _.sample(cards.blacks);
-		} while (usedBlacks.indexOf(card) != -1);
+			card_i = parseInt(Math.random() * expansions.blacks.length);
+		} while (this.usedBlacks.indexOf(card_i) != -1);
 
-		usedBlacks.push(card);
-		return card;
+		this.usedBlacks.push(card_i);
+		
+		return expansions.blacks[card_i];
 	};
 
 	this.newBlack = function() {
@@ -103,7 +103,7 @@ module.exports = function(io, socket) {
 		console.log('choosing host');
 		var player = _.sample(this.players);
 
-		player.isHost = true;
+		player.data.isHost = true;
 		player.emitUpdate();
 
 		this.host = player;
@@ -113,14 +113,14 @@ module.exports = function(io, socket) {
 
 	this.nextJudge = function() {
 
-		this.judge.isJudge = false;
+		this.judge.data.isJudge = false;
 
 		this.judge.emitUpdate();
 
 		var index = 0;
 
 		_.forEach(this.players, function(player, i) {
-			if (player.socketID == self.judge.socketID) {
+			if (player.data.socketID == self.judge.socketID) {
 				index = i;
 			}
 		});
@@ -134,7 +134,7 @@ module.exports = function(io, socket) {
 		this.judge = this.players[index];
 
 		if (this.judge !== undefined) {
-			this.judge.isJudge = true;
+			this.judge.data.isJudge = true;
 
 			this.judge.emitUpdate();
 		}
@@ -145,7 +145,7 @@ module.exports = function(io, socket) {
 
 		console.log('adding player');
 		// tell the user what room they're in
-		player.room = this.roomName;
+		player.data.room = this.roomName;
 
 		if (this.players.length === 1) {
 			this.chooseNewHost();
@@ -180,21 +180,21 @@ module.exports = function(io, socket) {
 
 	this.dealCards = function(player) {
 		// if the player has less than 10 cards
-		if (player.whiteCards.length < 10) {
+		if (player.data.whiteCards.length < 10) {
 
 			// then count how many new cards until they have 10
-			var count = 10 - player.whiteCards.length;
+			var count = 10 - player.data.whiteCards.length;
 
 			var newCards = this.getWhites(count);
 
 			// and give them that many cards
-			player.whiteCards = player.whiteCards.concat(newCards);
+			player.data.whiteCards = player.data.whiteCards.concat(newCards);
 		}
 	};
 
 	this.refundSubmissions = function() {
 		_.forEach(this.players, function(player) {
-			player.submissions = [];
+			player.data.submissions = [];
 
 			player.emitUpdate();
 		});

@@ -31,7 +31,7 @@ function control(io, socket) {
 		game.judge = _.sample(game.players);
 
 		// tell them they're the judge
-		game.judge.isJudge = true;
+		game.judge.data.isJudge = true;
 		game.judge.emitUpdate();
 
 		// tell everyone the game has begun

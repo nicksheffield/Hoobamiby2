@@ -32,7 +32,7 @@ function control(io, socket) {
 		var player = mem.findPlayer(socket.id);
 
 		// add this card to their submissions
-		player.submissions = game.submissions[socket.id];
+		player.data.submissions = game.submissions[socket.id];
 
 		// update them
 		player.emitUpdate();

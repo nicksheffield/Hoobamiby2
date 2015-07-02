@@ -20,12 +20,11 @@ function control(io, socket) {
 		mem.games[game.roomName] = game;
 
 		// create a player
-		var player = new Player(io, socket);
+		var player = new Player(socket.id);
 
 		// set the player data
-		player.socketID = socket.id;
-		player.nickname = data.nickname;
-		player.isHost = true;
+		player.data.nickname = data.nickname;
+		player.data.isHost = true;
 
 		// add the player to the list of players
 		mem.players[socket.id] = player;
@@ -35,7 +34,7 @@ function control(io, socket) {
 
 		// set the player up as the host of this game
 		game.host = player;
-		player.isHost = true;
+		player.data.isHost = true;
 
 		// deal them some cards
 		game.dealCards(player);
@@ -46,7 +45,7 @@ function control(io, socket) {
 		// send the game back
 		socket.emit('gameCreated', {
 			game: game,
-			player: player
+			player: player.data
 		});
 	});
 

@@ -1,6 +1,9 @@
 var _ = require('lodash');
+var io = require('./socket');
 
 module.exports = function(socket_id){	
+	var socket;
+	
 	this.data = {
 		nickname: '',
 		room: '',
@@ -12,9 +15,15 @@ module.exports = function(socket_id){
 		socketID: socket_id,
 		submissions: []
 	};
+	
+	if(this.data.socketID){
+		socket = io.sockets.connected[this.data.socketID];
+	}
 
 	this.fill = function(data){
 		this.data = _.merge(this.data, data);
+		
+		socket = io.sockets.connected[this.data.socketID];
 	};
 
 	this.emit = function(event, data){
@@ -22,21 +31,21 @@ module.exports = function(socket_id){
 	};
 
 	this.emitUpdate = function(){
-		this.emit('playerUpdate', this);
+		this.emit('playerUpdate', this.data);
 	};
 
 	this.broadcast = function(event, data){
-		socket.broadcast.to(this.room).emit(event, data);
+		socket.broadcast.to(this.data.room).emit(event, data);
 	};
 
 	this.broadcastUpdate = function(){
-		this.broadcast('otherPlayerUpdate', this);
+		this.broadcast('otherPlayerUpdate', this.data);
 	};
 
 	this.reset = function(){
-		this.whiteCards = [];
-		this.blackCards = [];
-		this.submissions = [];
-		this.isJudge = false;
+		this.data.whiteCards = [];
+		this.data.blackCards = [];
+		this.data.submissions = [];
+		this.data.isJudge = false;
 	};
 };

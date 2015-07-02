@@ -28,10 +28,10 @@ function control(io, socket) {
 		var winningPlayer = mem.findPlayer(data.socketID);
 
 		// set the winning player
-		game.winnerID = winningPlayer.socketID;
+		game.winnerID = winningPlayer.data.socketID;
 
 		// give them the black card
-		winningPlayer.blackCards.push(game.blackCard.text);
+		winningPlayer.data.blackCards.push(game.blackCard.text);
 
 		// let them know they won
 		winningPlayer.emitUpdate();
@@ -44,7 +44,7 @@ function control(io, socket) {
 
 		// if the score limit is reached
 		if (_.max(_.map(game.players, function(p) {
-			return p.blackCards.length;
+			return p.data.blackCards.length;
 		})) >= game.scoreLimit) {
 
 			// wait a few seconds for the winner to gloat
@@ -78,7 +78,7 @@ function control(io, socket) {
 				var player = mem.findPlayer(playerID);
 
 				// get a list of the white cards in the players hand
-				var newCards = player.whiteCards;
+				var newCards = player.data.whiteCards;
 
 				// go through each card in the submission
 				for (var i = 0; i < game.submissions[playerID].length; i++) {
@@ -90,10 +90,10 @@ function control(io, socket) {
 				}
 
 				// give the smaller list of cards back to the player
-				player.whiteCards = newCards;
+				player.data.whiteCards = newCards;
 
 				// empty submissions array attached to the player
-				player.submissions = [];
+				player.data.submissions = [];
 
 				// delete the submissions array attached to the game
 				delete game.submissions[playerID];
@@ -114,7 +114,7 @@ function control(io, socket) {
 				game.dealCards(player);
 
 				// and make sure they're not waiting
-				player.waiting = false;
+				player.data.waiting = false;
 
 				// now emit the updates to them
 				player.emitUpdate();

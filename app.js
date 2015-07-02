@@ -2,8 +2,8 @@
 // Dependencies
 // ----------------------------------------------------------------------------
 var requireDir = require('require-dir');
-var io = require('socket.io')(8001);
 var redis = require('socket.io-redis');
+var io = require('./modules/socket');
 
 
 // ----------------------------------------------------------------------------
