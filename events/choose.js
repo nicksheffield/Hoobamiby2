@@ -23,22 +23,30 @@ function control(io, socket) {
 
 		// set the chosen flag to true
 		game.chosen = true;
+		
+		// set winningPlayer to false, because it could be the house
+		var winningPlayer = false;
+		
+		// if it's not the house
+		if(data.socketID !== 'house'){
+			// then find the player
+			winningPlayer = mem.findPlayer(data.socketID);
+			
+			// set the winning player
+			game.winnerID = winningPlayer.socketID;
 
-		// find the winning player
-		var winningPlayer = mem.findPlayer(data.socketID);
+			// give them the black card
+			winningPlayer.blackCards.push(game.blackCard.text);
 
-		// set the winning player
-		game.winnerID = winningPlayer.socketID;
+			// let them know they won
+			winningPlayer.emitUpdate();
 
-		// give them the black card
-		winningPlayer.blackCards.push(game.blackCard.text);
-
-		// let them know they won
-		winningPlayer.emitUpdate();
-
-		// tell everyone else they won
-		winningPlayer.broadcastUpdate();
-
+			// tell everyone else they won
+			winningPlayer.broadcastUpdate();
+		} else {
+			game.winnerID = 'house';
+		}
+		
 		// update everbody
 		game.announceUpdate();
 
@@ -73,6 +81,8 @@ function control(io, socket) {
 
 			// for each of the submissions
 			for (var playerID in game.submissions) {
+				
+				if(playerID == 'house') continue;
 
 				// get the player
 				var player = mem.findPlayer(playerID);
@@ -98,6 +108,8 @@ function control(io, socket) {
 				// delete the submissions array attached to the game
 				delete game.submissions[playerID];
 			}
+			
+			delete game.submissions.house;
 
 			// choose a new black card
 			game.newBlack();

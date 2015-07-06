@@ -51,6 +51,11 @@ function control(io, socket) {
 
 			// flip 'em over
 			game.reveal = true;
+			
+			// add a card from the house
+			if(game.rules.housecard){
+				game.submissions.house = game.getWhites(game.blackCard.pick);
+			}
 
 			// shuffle the cards
 			game.submissions = objShuffle.shuffleProperties(game.submissions);

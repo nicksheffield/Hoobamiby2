@@ -20,6 +20,10 @@ module.exports = function(io, socket) {
 	this.minPlayers = 2; // minimum amount of players before the start button works
 	this.scoreLimit = 6; // determines when the game ends
 	this.gloatTime = 5; // amount of seconds to show the round winner card
+	
+	this.rules = {
+		housecard: true // the house submits the appropriate amount of white cards at the end of each round
+	};
 
 	// private properties
 	var cards = new Expansions();
